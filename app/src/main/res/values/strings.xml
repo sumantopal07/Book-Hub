@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BookHub</string>
+    <string name="title_activity_pin_verification">PinVerification</string>
+    <!--<string name="title_activity_buy">Buy</string>-->
+</resources>
