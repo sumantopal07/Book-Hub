@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    ..
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -21,7 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    ..
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_lauche"
@@ -29,36 +27,36 @@
         android:roundIcon="@mipmap/ic_lauche"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchNew"></activity>
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".activity.SearchNew"></activity>
+        <activity android:name=".activity.SearchActivity" />
         <activity
-            android:name=".BookEditVerify"
-            android:parentActivityName=".ItemsActivity" />
+            android:name=".activity.BookEditVerify"
+            android:parentActivityName=".activity.ItemsActivity" />
         <activity
-            android:name=".EditBookActivity"
-            android:parentActivityName=".BookEditVerify" />
-        <activity android:name=".PinVerification" />
-        <activity android:name=".SplashScreenActivity">
+            android:name=".activity.EditBookActivity"
+            android:parentActivityName=".activity.BookEditVerify" />
+        <activity android:name=".activity.PinVerification" />
+        <activity android:name=".activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".ItemsActivity" />
-        <activity android:name=".DetailsActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".PasswordActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".UpdateProfile" />
-        <activity android:name=".UploadActivity" /> <!-- <activity android:name=".ChangePassword" /> -->
-        <activity android:name=".UpdatePassword" /> <!-- <activity -->
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.SecondActivity" />
+        <activity android:name=".activity.ItemsActivity" />
+        <activity android:name=".activity.DetailsActivity" />
+        <activity android:name=".activity.RegistrationActivity" />
+        <activity android:name=".activity.PasswordActivity" />
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.UpdateProfile" />
+        <activity android:name=".activity.UploadActivity" /> <!-- <activity android:name=".ChangePassword" /> -->
+        <activity android:name=".activity.UpdatePassword" /> <!-- <activity -->
         <!-- android:name=".Buy" -->
         <!-- android:label="@string/title_activity_buy" -->
         <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
-        <activity android:name=".sell" />
+        <activity android:name=".activity.Sell" />
     </application>
 
 </manifest>

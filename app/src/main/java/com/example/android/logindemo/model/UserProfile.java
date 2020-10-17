@@ -1,4 +1,4 @@
-package com.example.android.logindemo;
+package com.example.android.logindemo.model;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ public class UserProfile implements Serializable {
     public String userEmail;
     public String userName;
 
-    public UserProfile(){
+    public UserProfile() {
     }
 
     public UserProfile(String userAge, String userEmail, String userName) {

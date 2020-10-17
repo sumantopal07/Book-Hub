@@ -1,9 +1,9 @@
-package com.example.android.logindemo;
+package com.example.android.logindemo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -12,8 +12,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.android.logindemo.R;
+import com.example.android.logindemo.model.Teacher;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnItemClickListener{
+public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerAdapter mAdapter;
@@ -35,30 +36,27 @@ public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnIt
     private ValueEventListener mDBListener;
     private List<Teacher> mTeachers;
     private int poo;
-    private String x;
-    private FirebaseAuth firebaseAuth;
-    private void openDetailActivity(String[] data){
 
-
+    private void openDetailActivity(String[] data) {
+        
         Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra("NAME_KEY",data[0]);
-        intent.putExtra("PRICE_KEY",data[1]);
-        intent.putExtra("CONTACT_DETAILS",data[2]);
-        intent.putExtra("DESCRIPTION_KEY",data[3]);
-        intent.putExtra("IMAGE_KEY",data[4]);
-        intent.putExtra("TEZ_KEY",data[5]);
+        intent.putExtra("NAME_KEY", data[0]);
+        intent.putExtra("PRICE_KEY", data[1]);
+        intent.putExtra("CONTACT_DETAILS", data[2]);
+        intent.putExtra("DESCRIPTION_KEY", data[3]);
+        intent.putExtra("IMAGE_KEY", data[4]);
+        intent.putExtra("TEZ_KEY", data[5]);
         startActivity(intent);
     }
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-        firebaseAuth = FirebaseAuth.getInstance();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
 
 
-        Intent intent=getIntent();
-        final String best=intent.getExtras().getString("SEARCH_KEY");
-        //temp=new String(unique);
+        Intent intent = getIntent();
+        final String best = intent.getExtras().getString("SEARCH_KEY");
 
         Toast.makeText(SearchNew.this, "PRESS AND HOLD TO VIEW OPTIONS", Toast.LENGTH_LONG).show();
 
@@ -70,25 +68,28 @@ public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnIt
         mProgressBar.setVisibility(View.VISIBLE);
 
         mTeachers = new ArrayList<>();
-        mAdapter = new RecyclerAdapter (SearchNew.this, mTeachers);
+        mAdapter = new RecyclerAdapter(SearchNew.this, mTeachers);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(SearchNew.this);
 
         mStorage = FirebaseStorage.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("book_uploads");
 
-        mDBListener = mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDBListener = mDatabaseRef.addValueEventListener(getDatabaseValueEventListener(best));
+    }
+
+    private ValueEventListener getDatabaseValueEventListener(final String best) {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 mTeachers.clear();
-                int i=0;
+                int i = 0;
                 for (DataSnapshot teacherSnapshot : dataSnapshot.getChildren()) {
                     Teacher upload = teacherSnapshot.getValue(Teacher.class);
-                    if(upload.getName().toLowerCase().contains(best.toLowerCase()))
-                    {
+                    if (upload.getName().toLowerCase().contains(best.toLowerCase())) {
                         upload.setKey(teacherSnapshot.getKey());
-                        mTeachers.add(i,upload);
+                        mTeachers.add(i, upload);
                     }
                 }
                 mAdapter.notifyDataSetChanged();
@@ -100,65 +101,53 @@ public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnIt
                 Toast.makeText(SearchNew.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
-        });
+        };
     }
+
     public void onItemClick(int position) {
-        Teacher clickedTeacher=mTeachers.get(position);
-        String[] teacherData={clickedTeacher.getName(),clickedTeacher.getPrice(),clickedTeacher.getContactDetails(),clickedTeacher.getDescription(),clickedTeacher.getImageUrl(),clickedTeacher.getGooglepay()};
-//        x=clickedTeacher.getPin();
+        Teacher clickedTeacher = mTeachers.get(position);
+        String[] teacherData = {clickedTeacher.getName(), clickedTeacher.getPrice(), clickedTeacher.getContactDetails(), clickedTeacher.getDescription(), clickedTeacher.getImageUrl(), clickedTeacher.getGooglePay()};
         openDetailActivity(teacherData);
     }
 
     @Override
     public void onShowItemClick(int position) {
-        //
-        Teacher clickedTeacher=mTeachers.get(position);
-        String[] teacherData={clickedTeacher.getName(),clickedTeacher.getPrice(),clickedTeacher.getContactDetails(),clickedTeacher.getDescription(),clickedTeacher.getImageUrl(),clickedTeacher.getGooglepay()};
+        Teacher clickedTeacher = mTeachers.get(position);
+        String[] teacherData = {clickedTeacher.getName(), clickedTeacher.getPrice(), clickedTeacher.getContactDetails(), clickedTeacher.getDescription(), clickedTeacher.getImageUrl(), clickedTeacher.getGooglePay()};
         openDetailActivity(teacherData);
     }
 
     @Override
-    public void onEditItemClick(int position)
-    {
-        Teacher clickedTeacher=mTeachers.get(position);
+    public void onEditItemClick(int position) {
+        Teacher clickedTeacher = mTeachers.get(position);
 
-        Intent inten = new Intent(SearchNew.this, BookEditVerify.class);
+        Intent intent = new Intent(SearchNew.this, BookEditVerify.class);
 
-        //String[] teacherData={clickedTeacher.getName(),clickedTeacher.getPrice(),clickedTeacher.getContactDetails(),clickedTeacher.getDescription(),clickedTeacher.getImageUrl(),clickedTeacher.getGooglepay(),clickedTeacher.getPin(),clickedTeacher.getUniqueId()};
-        inten.putExtra("UNIQUE_KEY",clickedTeacher.getUniqueId());
-        inten.putExtra("PIN_KEY",clickedTeacher.getPin());
-        inten.putExtra("NAME_KEY",clickedTeacher.getName());
-        inten.putExtra("DESC_KEY",clickedTeacher.getDescription());
-        inten.putExtra("PRICE_KEY",clickedTeacher.getPrice());
-        inten.putExtra("UPI_KEY",clickedTeacher.getGooglepay());
-        inten.putExtra("WHATSAPP_KEY",clickedTeacher.getContactDetails());
-        inten.putExtra("IMAGE_KEY",clickedTeacher.getImageUrl());
+        intent.putExtra("UNIQUE_KEY", clickedTeacher.getUniqueId());
+        intent.putExtra("PIN_KEY", clickedTeacher.getPin());
+        intent.putExtra("NAME_KEY", clickedTeacher.getName());
+        intent.putExtra("DESC_KEY", clickedTeacher.getDescription());
+        intent.putExtra("PRICE_KEY", clickedTeacher.getPrice());
+        intent.putExtra("UPI_KEY", clickedTeacher.getGooglePay());
+        intent.putExtra("WHATSAPP_KEY", clickedTeacher.getContactDetails());
+        intent.putExtra("IMAGE_KEY", clickedTeacher.getImageUrl());
 
-
-//        inten.putExtra("Teacher",teacherData);
-        startActivity(inten);
+        startActivity(intent);
     }
+
     @Override
     public void onDeleteItemClick(int position) {
-        Teacher clickedTeacher=mTeachers.get(position);
-        poo=position;
-        Intent inten = new Intent(this, PinVerification.class);
-        inten.putExtra("PIN_KEY",clickedTeacher.getPin());
-        //startActivity(inten);
-        //Intent intent = new Intent(ItemsActivity.this, PinVerification.class);
-        startActivityForResult(inten,1);
-        //onDestroy();;
-//        intent.putExtra("number1", number1);
-//        startActivity(new Intent(ItemsActivity.this, PinVerification.class));
-//        //openDialog();
+        Teacher clickedTeacher = mTeachers.get(position);
+        poo = position;
+        Intent intent = new Intent(this, PinVerification.class);
+        intent.putExtra("PIN_KEY", clickedTeacher.getPin());
+        startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK)
-        {
-            String z= data.getStringExtra("kyare");
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             Teacher selectedItem = mTeachers.get(poo);
             final String selectedKey = selectedItem.getKey();
 
@@ -178,12 +167,6 @@ public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnIt
         mDatabaseRef.removeEventListener(mDBListener);
     }
 
-//    private void Logout(){
-//        firebaseAuth.signOut();
-//        finish();
-//        startActivity(new Intent(ItemsActivity.this, MainActivity.class));
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu1, menu);
@@ -193,19 +176,11 @@ public class SearchNew extends AppCompatActivity implements RecyclerAdapter.OnIt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
-//            case R.id.logoutMenu:{
-//                Logout();
-//                break;
-//            }
-            case R.id.SEARCH:
-            {
-                ///Toast.makeText(SearchNew.this, "TRY", Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.SEARCH: {
                 startActivity(new Intent(SearchNew.this, SearchActivity.class));
                 break;
             }
-
-
         }
         return super.onOptionsItemSelected(item);
     }

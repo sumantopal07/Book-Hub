@@ -1,4 +1,4 @@
-package com.example.android.logindemo;
+package com.example.android.logindemo.activity;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.android.logindemo.R;
+import com.example.android.logindemo.model.Teacher;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -19,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
     private Context mContext;
     private List<Teacher> teachers;
     private OnItemClickListener mListener;
@@ -39,8 +41,6 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         Teacher currentTeacher = teachers.get(position);
         holder.nameTextView.setText(currentTeacher.getName());
-       // holder.priceTextView.setText(currentTeacher.getPrice());
-        //holder.contactDetailsTextView.setText(currentTeacher.getContactDetails());
         holder.descriptionTextView.setText(currentTeacher.getDescription());
         holder.dateTextView.setText(getDateToday());
         Picasso.with(mContext)
@@ -59,15 +59,14 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
     public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        public TextView nameTextView,priceTextView,contactDetailsTextView,descriptionTextView,dateTextView;
+        public TextView nameTextView;
+        public TextView descriptionTextView;
+        public TextView dateTextView;
         public ImageView teacherImageView;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
-            nameTextView =itemView.findViewById ( R.id.nameTextView );
-            //priceTextViewTextView =itemView.findViewById ( R.id.nameTextView );
-           //nameTextView =itemView.findViewById ( R.id.nameTextView );
-
+            nameTextView = itemView.findViewById(R.id.nameTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             teacherImageView = itemView.findViewById(R.id.teacherImageView);
@@ -89,7 +88,7 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("Select Action");
-            MenuItem showItem = menu.add( Menu.NONE, 1, 1, "Show");
+            MenuItem showItem = menu.add(Menu.NONE, 1, 1, "Show");
             MenuItem deleteItem = menu.add(Menu.NONE, 2, 2, "Delete");
             MenuItem editItem = menu.add(Menu.NONE, 3, 3, "Edit");
 
@@ -123,18 +122,22 @@ public  class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recyc
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onShowItemClick(int position);
+
         void onDeleteItemClick(int position);
+
         void onEditItemClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-    private String getDateToday(){
-        DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd");
-        Date date=new Date();
-        String today= dateFormat.format(date);
+
+    private String getDateToday() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        String today = dateFormat.format(date);
         return today;
     }
 }
