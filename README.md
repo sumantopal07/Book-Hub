@@ -1,12 +1,9 @@
-## Smart Image Cropping
+## Book-Hub
 
 Android-App for students to conveniently find buyers for their used books. Students will be able to offer their used books for sale at their own prices. 
 
 
-## Results
-
-###### Before  
-<img src="/Screenshots/a10.jpeg" width="300" height="600" />  
+## Screenshots
 
 ###### Before  
 <img src="/Screenshots/a11.jpeg" width="300" height="600" /> 
