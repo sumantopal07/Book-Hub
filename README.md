@@ -1,6 +1,12 @@
 ## Book-Hub
 
 Android-App for students to conveniently find buyers for their used books. Students will be able to offer their used books for sale at their own prices. 
+Technonlogies Used:  
+- Java 
+- Android-Studio 
+- Firebase  
+- whatsapp API
+- Google pay API
 
 
 ## Screenshots
