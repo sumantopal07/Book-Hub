@@ -5,16 +5,16 @@ Android-App for students to conveniently find buyers for their used books. Stude
 
 ## Screenshots
 
-###### Home Screen  
+##### Home Screen  
 <img src="/Screenshots/a11.jpeg" width="300" height="600" /> 
 
-###### Login/Signup  
+##### Login/Signup  
 <img src="/Screenshots/a2.jpeg" width="300" height="600" />  
 
-###### Adding Details  
+##### Adding Details  
 <img src="/Screenshots/a6.jpeg" width="300" height="600" />  
 
-###### List-View  
+##### List-View  
 <img src="/Screenshots/a8.jpeg" width="300" height="600" />  
 
 ## Contributing
